@@ -1,0 +1,160 @@
+﻿<Window x:Class="DictionaryLearn.DictionaryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Background="#FAFFFA"
+        Title="MainWindow" Height="600" Width="1000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded_1">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="#F8F8F8" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="#DDDDDD" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="40" />
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#FAFAFA" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style x:Key="Answer" >
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=State}" Value="0">
+                    <Setter Property="Border.BorderBrush" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Verbs" HorizontalAlignment="Center" Focusable="False"/>
+            <ListView x:Name="viewVerbs" Grid.Row="1" MinWidth="150" ItemsSource="{Binding VerbList}" IsSynchronizedWithCurrentItem="True"
+                  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedItem}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="7">
+                            <TextBlock Text="{Binding Infinitive}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,10,0,30"> 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" DataContext="{Binding VerbList}" Text="{Binding Infinitive}" Focusable="False"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="_Accept" Command="{Binding AcceptCommand}" TabIndex="2" Click="Button_Click_1"/>
+                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource Answer}">
+                    <TextBox x:Name="txtPastSimpleAnswer"   DataContext="{Binding VerbList}" Text="{Binding PastSimpleAnswer}" TabIndex="0"/>
+                </Border>
+                <Grid Grid.Row="1" Grid.Column="1" Visibility="{Binding VerbFormsVisible}">
+                    <TextBlock DataContext="{Binding VerbList}" Text="{Binding PastSimple}" />
+                </Grid>
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Answer}">
+                    <TextBox DataContext="{Binding VerbList}" Text="{Binding ParticipleIIAnswer}" TabIndex="1"/>
+                </Border>
+                <Grid Grid.Row="2" Grid.Column="1" Visibility="{Binding VerbFormsVisible}">
+                    <TextBlock DataContext="{Binding VerbList}" Text="{Binding ParticipleII}"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="All"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Current attempt"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Error level"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ErrorLevel}" Focusable="False"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ErrorLevelCurrent}" Focusable="False"/>
+                <TextBlock Grid.Row="2" Grid.Column="0"  Text="Pass number"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding PassNumber}" Focusable="False"/>
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PassNumberCurrent}" Focusable="False"/>
+                <TextBlock Grid.Row="3" Grid.Column="0"  Text="Down number"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DoneNumber}" Focusable="False"/>
+                <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding DoneNumberCurrent}" Focusable="False"/>
+                <TextBlock Grid.Row="4" Grid.Column="0"  Text="Remain" />
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding RemainNumber}" Focusable="False" Grid.ColumnSpan="2" />
+                <TextBlock Grid.Row="5" Grid.Column="0"  Text="Attempt" />
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding AttemptNumber}" Focusable="False" Grid.ColumnSpan="2"/>
+                <Button Grid.Row="6" Grid.Column="1" Content="Next Attept" Command="{Binding NextAttemptCommand}"/>
+                <Button Grid.Row="6" Grid.Column="2" Content="New Seans" Command="{Binding NewSeansCommand}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Incorrect" HorizontalAlignment="Center" Focusable="False"/>
+            <ListView Grid.Row="1" MinWidth="150" ItemsSource="{Binding IncorrectVerb}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="7">
+                            <TextBlock Text="{Binding Infinitive}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Correct" HorizontalAlignment="Center" Focusable="False"/>
+            <ListView Grid.Row="1" MinWidth="150" ItemsSource="{Binding CorrectVerb}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="7">
+                            <TextBlock Text="{Binding Infinitive}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>
